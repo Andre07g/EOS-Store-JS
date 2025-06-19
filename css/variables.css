@@ -1,0 +1,15 @@
+@font-face {
+    font-family: "Petrona";
+    src: url("../assets/fonts/Petrona/Petrona-Italic-VariableFont_wght.ttf");
+}
+
+:root {
+    --berkeleyblue: #123458;
+    --bittersweet:  #FF5151;
+    --timberwolf:   #D4C9BE;
+    --isabelline:   #F1EFEC;
+    --cadetgray:    #829AAB;
+    --antiflash:    #EEEEEE;
+    --yellow:       #88BF44;
+}
+
