@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./css/styles.css">
 </head>
+
 <body>
     <main class="pagina-completa">
-        
+
         <section class="pagina-inicio">
             <img src="./assets/sources/eos.png" alt="Logo de Eos" id="logo">
             <p id="fraseIntro">Donde la elegancia, la fuerza y la innovación se encuentran.</p>
@@ -17,8 +19,9 @@
         <nav class="navbar">
             <div class="espacio-navBar"></div>
             <div class="iconosNavBar">
-            <img src="./assets/sources/icono.png" alt="Icono de EOS" id="iconoEos">
-            <img src="./assets/sources/menu.png" alt="Botòn de despliegue de la barra de navegacion" id="navBarBoton">
+                <img src="./assets/sources/icono.png" alt="Icono de EOS" id="iconoEos">
+                <img src="./assets/sources/menu.png" alt="Botòn de despliegue de la barra de navegacion"
+                    id="navBarBoton">
             </div>
         </nav>
         <section class="pagina-categorias">
@@ -44,25 +47,61 @@
         <section class="pagina-productos">
             <h1>Hombre</h1>
             <div class="busqueda-filtro">
-                <input type="text" id="buscador">
+                <input type="text" id="buscador" placeholder="Buscar un producto...">
+                <select class="select-personalizado">
+                    <option value="orden">Ordenar</option>
+                    <option value="preciobajo">Precio mas bajo</option>
+                    <option value="precioalto">Precio mas alto</option>
+                </select>
             </div>
             <div class="contenedor-productos">
                 <div class="producto">
                     <h3>Cotton</h3>
-                    <img>
+                    <img src="./assets/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_-removebg-preview.png"
+                        class="imagen-producto">
                     <p>$55.99</p>
-                    <button>Ver mas</button>
-                    <div id="boton-marron"></div>
-                    <img id="añadircarrito" src="./assets/sources/añadircarro.png">
+                    <button class="boton-ver-mas">Ver mas</button>
+                    <div class="boton-marron"><img class="añadircarrito" src="./assets/sources/añadircarrito.png"></div>
                 </div>
             </div>
         </section>
         <section class="pagina-carrito">
+            <div class="carro-factura">
+                <div class="carrito">
+                        <div class="titulo-carrito">
+                            <img src="./assets/sources/carrologo.png">
+                            <h1>MI CARRITO</h1>
+                        </div>
+                        <div class="contenedor-carrito">
+                            <div class="producto-carrito">
+                                <div class="numero"><h2>2</h2></div>
+                                <div class="tarjeta-producto-carro">
+                                    <div class="imgpro">
+                                    <img class="imagen-producto-carrito" src="./assets/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_-removebg-preview.png">
+                                    <div class="datos-producto-pedido">
+                                        <h2>Cotton</h2>
+                                        <p>Precio: $55.5</p>
+                                        <p>Cantidad: 2</p>
+                                    </div></div>
+                                    <div class="botones-producto">
+                                        <div class="boton-añadir"><img src="./assets/sources/añadircarrito.png" >
+                                        </div>
+                                        <div class="boton-quitar"><img src="./assets/sources/basura.png" ></div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="factura">
 
+                </div>
+            </div>
         </section>
     </main>
     <footer class="pie-de-pagina">
 
     </footer>
 </body>
+
 </html>
