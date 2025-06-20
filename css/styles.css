@@ -1,3 +1,160 @@
 @import url(./variables.css);
 
-body{background-color: var(--berkeleyblue);}
+body {
+    background-color: var(--timberwolf);
+    margin: 0;
+    padding: 0;
+    font-family: "Petrona";
+    color: white;
+}
+
+/*Desktop*/
+
+/*BARRA DE NAVEGACION*/
+
+.navbar {
+    height: 10vh;
+    display: flex;
+    background-color: var(--berkeleyblue);
+    width: 100%;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.espacio-navBar {
+    width: 47%;
+}
+
+.iconosNavBar {
+    width: 52%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#iconoEos {
+    height: 10vh
+}
+
+#navBarBoton {
+    height: 5vh;
+    padding-right: 1vw;
+}
+
+/*PAGINA PRINCIPAL*/
+
+.pagina-inicio {
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+
+}
+
+
+#logo {
+    width: 40vw;
+    margin-bottom: 5vh;
+}
+
+#fraseIntro {
+    font-style: italic;
+    margin-bottom: 15vh;
+    font-size: 1.5rem;
+}
+
+#botonConoceMas {
+    background-color: var(--cadetgray);
+    padding-left: 4vh;
+    padding-right: 4vh;
+    padding: 2vh;
+    color: white;
+    border: 0;
+    border-radius: 8px;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/*PAGINA CATEGORIAS*/
+
+.pagina-categorias {
+    height: 80vh;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+
+.categorias {
+    display: grid;
+    width: 90%;
+    height: 90%;
+    align-self: center;
+    justify-self: center;
+    grid-template-areas: "hombre joyeria mujer"
+        "hombre tecnologia mujer";
+    justify-items: center;
+    place-items: center;
+    box-sizing: border-box;
+    gap: 1vw;
+
+}
+
+.pagina-categorias h2 {
+    font-size: 3rem;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    text-align: center;
+    place-content: center;
+    background-color: rgba(0, 0, 0, 0.548);
+    border-radius: 20px;
+}
+
+.tarjeta-categoria {
+    grid-area: hombre;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    justify-items: center;
+    border-radius: 20px;
+}
+
+.hombre {
+    grid-area: hombre;
+    background-image: url(../assets/sources/hombre.avif);
+
+}
+
+.joyeria {
+    grid-area: joyeria;
+    background-image: url(../assets/sources/joyeria.avif);
+}
+
+.tecnologia {
+    grid-area: tecnologia;
+    background-image: url(../assets/sources/electrodomesticos);
+}
+
+.mujer {
+    grid-area: mujer;
+    background-image: url(../assets/sources/mujer.avif);
+}
+
+/*PAGINAS DE PRODUCTOS*/
+
+.pagina-productos{min-height: 80vh;display: flex;flex-direction: column;align-items: center;}
+
+.busqueda-filtro{width: 100%;}
+
+.contenedor-productos{width: 90%;}
+
+.producto{width: 25%;position: relative;
+background-color: var(--isabelline);display: flex;flex-direction: column;}
+#boton-marron{position: absolute;width: 10%;height: 10vh;background-color: black;bottom: 0;}
