@@ -14,9 +14,9 @@
         <section class="pagina-inicio">
             <img src="./assets/sources/eos.png" alt="Logo de Eos" id="logo">
             <p id="fraseIntro">Donde la elegancia, la fuerza y la innovación se encuentran.</p>
-            <button class="botones" id="botonConoceMas">CONOCE MAS</button>
+            <button class="botones" id="botonConoceMas"><a href="#navbar">CONOCE MAS</a></button>
         </section>
-        <nav class="navbar">
+        <nav class="navbar" id="navbar">
             <div class="espacio-navBar"></div>
             <div class="iconosNavBar">
                 <img src="./assets/sources/icono.png" alt="Icono de EOS" id="iconoEos">
@@ -44,7 +44,7 @@
                 </div>
             </section>
         </section>
-        <section class="pagina-productos">
+        <section class="pagina-productos oculto">
             <h1>Hombre</h1>
             <div class="busqueda-filtro">
                 <input type="text" id="buscador" placeholder="Buscar un producto...">
@@ -65,7 +65,7 @@
                 </div>
             </div>
         </section>
-        <section class="pagina-carrito">
+        <section class="pagina-carrito oculto">
             <div class="carro-factura">
                 <div class="carrito">
                     <div class="titulo-carrito">
@@ -239,7 +239,7 @@
 
                 </div>
             </div>
-            <div class="form-fondo">
+            <div class="form-fondo oculto">
                 <form class="formulario">
                     <h2>Ingresa</h2>
                     <input type="text" id="nombre-form" placeholder="Ingresa tu nombre" required>
@@ -262,5 +262,5 @@
      <h3>Todos los derechos reservados ©</h3>
     </footer>
 </body>
-
+<script src="./js/app.js"></script>
 </html>

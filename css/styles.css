@@ -1,10 +1,21 @@
 @import url(./variables.css);
 
+
 body {
     background-color: var(--timberwolf);
     margin: 0;
     padding: 0;
     font-family: "Petrona";
+    color: white;
+
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+a {
+    text-decoration: none;
     color: white;
 }
 
@@ -53,16 +64,19 @@ body {
 
 }
 
-
 #logo {
     width: 40vw;
     margin-bottom: 5vh;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    will-change: transform, opacity;
 }
 
 #fraseIntro {
     font-style: italic;
     margin-bottom: 15vh;
     font-size: 1.5rem;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    will-change: transform, opacity;
 }
 
 #botonConoceMas {
@@ -75,6 +89,8 @@ body {
     border-radius: 8px;
     font-size: 1.5rem;
     font-weight: 700;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    will-change: transform, opacity;
 }
 
 /*PAGINA CATEGORIAS*/
@@ -100,6 +116,19 @@ body {
     gap: 1vw;
 
 }
+
+.hombre:hover h2,
+.mujer:hover h2,
+.tecnologia:hover h2,
+.joyeria:hover h2 { animation: alumbrar 0.7s forwards;
+    
+}
+
+@keyframes alumbrar{
+    from{ background-color: rgba(0, 0, 0, 0.548);}
+    to{ background-color: rgba(0, 0, 0, 0.144);}
+}
+
 
 .pagina-categorias h2 {
     font-size: 3rem;
@@ -542,15 +571,52 @@ hr {
     top: 25%;
     text-align: center;
     align-items: center;
-justify-content: space-evenly;
-border-radius: 30px;
-color: var(--berkeleyblue);
+    justify-content: space-evenly;
+    border-radius: 30px;
+    color: var(--berkeleyblue);
 }
 
-.formulario input{width: 80%;height: 4vh;font-size: clamp(1rem,1vw,1.5rem);padding: 1rem;box-sizing: border-box;}
-#formselect{width: 80%;}
-.formulario h2{font-size: clamp(1rem,2vw,2rem);margin: 0;}
-#enviar-form{padding: 0;width: 40%;background-color: var(--berkeleyblue);color:white;border-radius: 10px;font-size: clamp(1rem,1vw,2rem);}
- /*FOOTER*/
- .pie-de-pagina{height: 10vh;background-color: var(--berkeleyblue);box-sizing: border-box;display: flex;align-items: center;}
- .pie-de-pagina h3{margin: 0;padding-left: 1vw;box-sizing: border-box;}
+.formulario input {
+    width: 80%;
+    height: 4vh;
+    font-size: clamp(1rem, 1vw, 1.5rem);
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+#formselect {
+    width: 80%;
+}
+
+.formulario h2 {
+    font-size: clamp(1rem, 2vw, 2rem);
+    margin: 0;
+}
+
+#enviar-form {
+    padding: 0;
+    width: 40%;
+    background-color: var(--berkeleyblue);
+    color: white;
+    border-radius: 10px;
+    font-size: clamp(1rem, 1vw, 2rem);
+}
+
+/*FOOTER*/
+.pie-de-pagina {
+    height: 10vh;
+    background-color: var(--berkeleyblue);
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+}
+
+.pie-de-pagina h3 {
+    margin: 0;
+    padding-left: 1vw;
+    box-sizing: border-box;
+}
+
+.oculto {
+    display: none !important;
+}
