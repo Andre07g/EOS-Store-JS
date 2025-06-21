@@ -115,6 +115,8 @@ function mostrarCategoria(nombreCategoria, nombreVisible, idBuscador) {
     filtrados.forEach(producto => {
       const div = document.createElement("div");
       div.classList.add("producto");
+      div.setAttribute("data",`${producto.id}`);
+      console.log(div.attributes);
       div.innerHTML = `
         <h3>${producto.title}</h3>
         <img src="${producto.image}" class="imagen-producto">
@@ -201,3 +203,7 @@ function mostrarDetalleProducto(producto) {
     </div>
   `;
 }
+
+/*FUNCION PAGINA CARRITO*/
+
+
