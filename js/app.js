@@ -95,6 +95,9 @@ function mostrarCategoria(nombreCategoria, nombreVisible, idBuscador) {
       </select>
     </div>
     <div class="contenedor-productos"></div>
+    <div class="aviso oculto">
+                <h2>Se ha añadido correctamente</h2>
+            </div>
   `;
 
   const contenedor = document.querySelector(".contenedor-productos");
@@ -122,7 +125,8 @@ function mostrarCategoria(nombreCategoria, nombreVisible, idBuscador) {
         <img src="${producto.image}" class="imagen-producto">
         <p>$${producto.price}</p>
         <button class="boton-ver-mas">Ver más</button>
-        <div class="boton-marron"><img class="añadircarrito" src="./assets/sources/añadircarrito.png" data-id="${producto.id}"></div>`;
+        <div class="boton-marron"><img class="añadircarrito" src="./assets/sources/añadircarrito.png" data-id="${producto.id}"></div>
+        `;
       contenedor.appendChild(div);
     });
   }
@@ -205,7 +209,7 @@ function mostrarDetalleProducto(producto) {
 }
 
 /*FUNCION PAGINA CARRITO*/
-
+console.log(document.getElementsByClassName("aviso"));
 function agregarAlCarro(productoCarrito){
   let carro = JSON.parse(localStorage.getItem("carro"))||[];
   const existe  = carro.find((p)=>p.id===productoCarrito.id);
@@ -217,7 +221,13 @@ function agregarAlCarro(productoCarrito){
   }
   localStorage.setItem("carro",JSON.stringify(carro));
   console.log("actualizado");
-  console.log(carro)
+  const aviso = document.getElementsByClassName("aviso")[0];
+  console.log("mostrando")
+  aviso.classList.toggle("oculto");
+  setTimeout(() => {
+    aviso.classList.toggle("oculto");
+    console.log("ocultando")
+  }, 3300);
 }
 
 setTimeout(()=>{console.log("weeew")
