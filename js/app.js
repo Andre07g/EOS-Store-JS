@@ -226,24 +226,20 @@ setTimeout(() => {
   }
 }, 3000);
 
-
-
-setTimeout(() => {
-  mostrarCarro();
-  mostrarFactura();
-  eliminarProd();
-}, 3000);
+mostrarCarro();
 
 function mostrarCarro() {
   let carro = JSON.parse(localStorage.getItem("carro")) || [];
   const contenedorCarrito =
     document.getElementsByClassName("contenedor-carrito")[0];
-    contenedorCarrito.innerHTML="";
+  contenedorCarrito.innerHTML = "";
   let numCarrito = 1;
   carro.forEach((carroElement) => {
-    let productoContenedorCarro = document.createElement("div");
-    productoContenedorCarro.classList.add("producto-carrito");
-    productoContenedorCarro.innerHTML = `<div class="numero">
+    console.log(carroElement)
+    if (carroElement.cantidad === 0) { } else {
+      let productoContenedorCarro = document.createElement("div");
+      productoContenedorCarro.classList.add("producto-carrito");
+      productoContenedorCarro.innerHTML = `<div class="numero">
                      <h2>${numCarrito}</h2>
                  </div>
                  <div class="tarjeta-producto-carro" >
@@ -252,21 +248,23 @@ function mostrarCarro() {
                              src=${carroElement.image}>
                          <div class="datos-producto-pedido">
                              <h2>${carroElement.title.slice(0, 15)}</h2>
-                             <p>Precio: ${carroElement.price}</p>
+                             <p>Precio: ${carroElement.price.toFixed(2)}</p>
                              <p>Cantidad: ${carroElement.cantidad}</p>
                          </div>
                      </div>
                      <div class="botones-producto">
-                         <div class="boton-añadir" data-id=${
-                           carroElement.id
-                         }><img src="./assets/sources/añadircarrito.png">
+                         <div class="boton-añadir" data-id=${carroElement.id
+        }><img src="./assets/sources/añadircarrito.png">
                          </div>
-                         <div class="boton-quitar"><img src="./assets/sources/basura.png"></div>
+                         <div class="boton-quitar" data-id=${carroElement.id
+        }><img src="./assets/sources/basura.png"></div>
              </div>
       </div>`;
-    contenedorCarrito.appendChild(productoContenedorCarro);
-    numCarrito++;
+      contenedorCarrito.appendChild(productoContenedorCarro);
+      numCarrito++;
+    }
   });
+  asignarEventos();
 }
 
 function mostrarFactura() {
@@ -288,7 +286,7 @@ function mostrarFactura() {
       0,
       15
     )}---x${elementCarro.cantidad}</p>
-    <p>${elementCarro.cantidad * elementCarro.price}</p>`;
+    <p>${(elementCarro.cantidad * elementCarro.price).toFixed(2)}</p>`;
     console.log(divSub);
     factura.append(divSub);
     totalPrecio += elementCarro.cantidad * elementCarro.price;
@@ -309,9 +307,8 @@ function mostrarFactura() {
                      <p class="subsubtitulo">Fecha: ${fechaHora}</p>
                      <p class="subsubtitulo">Cliente: Edgar Andres Leal Plata</p>
                      <p class="subsubtitulo">Correo: correo@hotmail.com</p>
-                     <p class="subsubtitulo">Codigo de cliente: ${Math.floor(
-                       Math.random() * 1000
-                     )}</p>
+                     <p class="subsubtitulo">Codigo de cliente: 3
+                     </p>
                      <hr>
                      <p class="subtitulo">Medios de pago</p>
                      <hr>
@@ -319,7 +316,7 @@ function mostrarFactura() {
                          <p>Mastercard</p><img src="./assets/sources/mastercard.webp">
                      </div>
                      <div class="pagar">
-                     <h1>TOTAL: $${totalPrecio}</h1><button>PAGAR</button>
+                     <h1>TOTAL: $${totalPrecio.toFixed(2)}</h1><button>PAGAR</button>
                      </div>
                      <div class="triangular-bottom">
                          <svg viewBox="0 0 360 20" width="100%" height="20" preserveAspectRatio="none">
@@ -332,12 +329,12 @@ function mostrarFactura() {
 
 
 
-function eliminarProd(){
-const botonAñadirCarrito = document.getElementsByClassName("boton-añadir");
+function añadirProd() {
+  const botonAñadirCarrito = document.getElementsByClassName("boton-añadir");
 
   for (let i = 0; i < botonAñadirCarrito.length; i++) {
     botonAñadirCarrito[i].addEventListener("click", () => {
-      console.log("111");
+      console.log("222");
       console.log(botonAñadirCarrito[i].dataset.id);
       const idProducto = parseInt(botonAñadirCarrito[i].dataset.id);
       let carro = JSON.parse(localStorage.getItem("carro")) || [];
@@ -348,7 +345,58 @@ const botonAñadirCarrito = document.getElementsByClassName("boton-añadir");
       console.log(productoCarrito);
       localStorage.setItem("carro", JSON.stringify(carro));
       mostrarCarro();
+      mostrarFactura();
+      añadirProd();
+    });
+  };
+}
+function eliminarProd() {
+  const botonQuitarCarrito = document.getElementsByClassName("boton-quitar");
+
+  for (let i = 0; i < botonQuitarCarrito.length; i++) {
+    botonQuitarCarrito[i].addEventListener("click", () => {
+      console.log("111");
+      console.log(botonQuitarCarrito[i].dataset.id);
+      const idProducto = parseInt(botonQuitarCarrito[i].dataset.id);
+      let carro = JSON.parse(localStorage.getItem("carro")) || [];
+      console.log(idProducto);
+      console.log(botonQuitarCarrito[i].dataset.id);
+      const productoCarrito = carro.find((p) => p.id === idProducto);
+      productoCarrito.cantidad--;
+      console.log(productoCarrito);
+      localStorage.setItem("carro", JSON.stringify(carro));
+      mostrarCarro();
+      mostrarFactura();
       eliminarProd();
     });
   };
+}
+
+function asignarEventos() {
+  const botonesAñadir = document.getElementsByClassName("boton-añadir");
+  const botonesQuitar = document.getElementsByClassName("boton-quitar");
+
+  for (let btn of botonesAñadir) {
+    btn.addEventListener("click", () => {
+      const idProducto = parseInt(btn.dataset.id);
+      let carro = JSON.parse(localStorage.getItem("carro")) || [];
+      const producto = carro.find(p => p.id === idProducto);
+      producto.cantidad++;
+      localStorage.setItem("carro", JSON.stringify(carro));
+      mostrarCarro();
+      mostrarFactura();
+    });
+  }
+
+  for (let btn of botonesQuitar) {
+    btn.addEventListener("click", () => {
+      const idProducto = parseInt(btn.dataset.id);
+      let carro = JSON.parse(localStorage.getItem("carro")) || [];
+      const producto = carro.find(p => p.id === idProducto);
+      producto.cantidad--;
+      localStorage.setItem("carro", JSON.stringify(carro));
+      mostrarCarro();
+      mostrarFactura();
+    });
+  }
 }
