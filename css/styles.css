@@ -272,6 +272,18 @@ a {
   cursor: pointer;
 }
 
+.flecha-trasera-car {
+  position: absolute;
+  top: 5vh;
+  left: 1vw;
+  width: 3vw;
+}
+
+.flecha-trasera-car:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
 .boton-ver-mas {
   font-size: clamp(0.9rem, 2vw, 1.2rem);
   padding: 0.5rem 1rem;
@@ -573,7 +585,7 @@ hr {
 }
 
 .form-fondo {
-  display: none;
+  display: flex;
   flex-direction: column;
   position: absolute;
   width: 100%;
@@ -588,7 +600,7 @@ hr {
   flex-direction: column;
   height: 50vh;
   background-color: var(--isabelline);
-  width: 30vw;
+  width: 40vw;
   position: fixed;
   z-index: 1000;
   top: 25%;

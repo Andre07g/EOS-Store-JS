@@ -20,7 +20,7 @@
             <div class="espacio-navBar"></div>
             <div class="iconosNavBar">
                 <img src="./assets/sources/icono.png" alt="Icono de EOS" id="iconoEos">
-                <img src="./assets/sources/menu.png" alt="Botòn de despliegue de la barra de navegacion"
+                <img src="./assets/sources/carrito-de-compras.png" alt="Botòn de despliegue de la barra de navegacion"
                     id="navBarBoton">
             </div>
         </nav>
@@ -47,8 +47,8 @@
         <section class="pagina-productos oculto">
             
         </section>
-        <section class="pagina-carrito">
-            
+        <section class="pagina-carrito oculto">
+            <img src="./assets/sources/flecha.png" class="flecha-trasera-car">
             <div class="carro-factura">
                 <div class="carrito">
                     <div class="titulo-carrito">
@@ -67,13 +67,14 @@
 
                 </div>
             </div>
-            <div class="form-fondo oculto">
+            <div class="form-fondo">
                 <form class="formulario">
                     <h2>Ingresa</h2>
                     <input type="text" id="nombre-form" placeholder="Ingresa tu nombre" required>
                     <input type="email" id="correo-form" placeholder="Ingresa tu correo" required>
+                    <input type="number" id="codigo-form" placeholder="Ingresa tu codigo de cliente" required>
                     <select class="select-personalizado" id="formselect" required>
-                        <option value="default">Selecciona tu medio de pago</option>
+                        <option value="">Selecciona tu medio de pago</option>
                         <option value="mastercard">Mastercard</option>
                         <option value="pse">PSE</option>
                         <option value="maestro">Maestro</option>

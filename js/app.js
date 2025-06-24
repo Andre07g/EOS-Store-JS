@@ -15,7 +15,17 @@ document.getElementById("botonConoceMas").addEventListener("click", (e) => {
 
 /*CATEGORIAS*/
 
+
+
 /*PRODUCTOS*/
+
+
+/*CARRITO*/
+setTimeout(() => {
+  mostrarCarro();
+  mostrarFactura();
+}, 15000);
+
 
 /*FUNCIONES*/
 
@@ -189,6 +199,8 @@ function mostrarDetalleProducto(producto) {
   `;
 }
 
+
+
 /*FUNCION PAGINA CARRITO*/
 console.log(document.getElementsByClassName("aviso"));
 function agregarAlCarro(productoCarrito) {
@@ -222,11 +234,11 @@ setTimeout(() => {
       const productoCarrito = listaProductos.find((p) => p.id === idProducto);
       console.log(productoCarrito);
       agregarAlCarro(productoCarrito);
+      document.getElementById("navBarBoton").classList.toggle("oculto", true);
     });
   }
 }, 3000);
 
-mostrarCarro();
 
 function mostrarCarro() {
   let carro = JSON.parse(localStorage.getItem("carro")) || [];
@@ -268,6 +280,7 @@ function mostrarCarro() {
 }
 
 function mostrarFactura() {
+  console.log("Entrando a mostrarFactura");
   let carro = JSON.parse(localStorage.getItem("carro")) || [];
   const factura = document.getElementsByClassName("factura")[0];
   factura.innerHTML = `<p class="codigo">Codigo: ${Math.floor(
@@ -279,6 +292,7 @@ function mostrarFactura() {
                     <hr>`;
   let totalPrecio = 0;
   carro.forEach((elementCarro) => {
+    if(elementCarro.cantidad===0){return}else{
     console.log(elementCarro.title.slice(0, 15));
     let divSub = document.createElement("div");
     divSub.classList.add("subtitulo-precio");
@@ -290,7 +304,7 @@ function mostrarFactura() {
     console.log(divSub);
     factura.append(divSub);
     totalPrecio += elementCarro.cantidad * elementCarro.price;
-  });
+  }});
   const ahora = new Date();
 
   const año = ahora.getFullYear();
@@ -301,19 +315,25 @@ function mostrarFactura() {
   const minutos = String(ahora.getMinutes()).padStart(2, "0");
 
   const fechaHora = `${año}-${mes}-${dia}       Hora:${horas}:${minutos}`;
+  let cuentas = JSON.parse(localStorage.getItem("cuentas")) || [];
+  const pagos={maestro:"./assets/sources/maestro.png",mastercard:"./assets/sources/mastercard.webp",pse:"./assets/sources/logo-pse.png",american:"./assets/sources/american.png",visa:"./assets/sources/visawebp"}
+  let medioPagoCuenta = cuentas[3];
+
+  let urlPago = pagos[medioPagoCuenta];  
+  
   factura.innerHTML += `<hr>
                      <p class="subtitulo">Datos</p>
                      <hr>
                      <p class="subsubtitulo">Fecha: ${fechaHora}</p>
-                     <p class="subsubtitulo">Cliente: Edgar Andres Leal Plata</p>
-                     <p class="subsubtitulo">Correo: correo@hotmail.com</p>
-                     <p class="subsubtitulo">Codigo de cliente: 3
+                     <p class="subsubtitulo">Cliente: ${document.getElementById("nombre-form").value.trim()}</p>
+                     <p class="subsubtitulo">Correo: ${document.getElementById("correo-form").value.trim()}</p>
+                     <p class="subsubtitulo">Codigo de cliente: ${document.getElementById("codigo-form").value.trim()}
                      </p>
                      <hr>
                      <p class="subtitulo">Medios de pago</p>
                      <hr>
                      <div class="pago">
-                         <p>Mastercard</p><img src="./assets/sources/mastercard.webp">
+                         <img src=${urlPago}>
                      </div>
                      <div class="pagar">
                      <h1>TOTAL: $${totalPrecio.toFixed(2)}</h1><button>PAGAR</button>
@@ -347,6 +367,7 @@ function añadirProd() {
       mostrarCarro();
       mostrarFactura();
       añadirProd();
+
     });
   };
 }
@@ -400,3 +421,53 @@ function asignarEventos() {
     });
   }
 }
+mostrarCarrito()
+
+
+function mostrarCarrito() {
+  const botonCarro = document.getElementById("navBarBoton"); let dentro = false;
+  botonCarro.addEventListener("click", () => {
+    let carro = JSON.parse(localStorage.getItem("carro")) || [];
+   
+    if(dentro){return}
+    if(carro.length=0){
+    }
+    else{
+    let cuentas = JSON.parse(localStorage.getItem("cuentas")) || [];
+    console.log(cuentas.length);
+    const paginaProductos = document.getElementsByClassName("pagina-productos")[0];
+    const paginaCategoria = document.querySelector(".pagina-categorias");
+    const paginaCarrito = document.querySelector(".pagina-carrito");
+    paginaProductos.classList.toggle("oculto", true);
+    paginaCategoria.classList.toggle("oculto", true);
+    paginaCarrito.classList.toggle("oculto");
+    document.querySelector(".flecha-trasera-car").addEventListener("click", () => {
+      paginaCarrito.classList.add("oculto");
+      paginaCategoria.classList.remove("oculto");
+      paginaProductos.innerHTML = "";
+    });
+    if(cuentas.length>0){document.querySelector(".form-fondo").classList.toggle("oculto");}
+    else{
+    
+  }dentro=true;}})
+  
+}
+
+
+/*FORMULARIO*/
+
+document.querySelector(".formulario").addEventListener("submit", function (e) {
+  e.preventDefault();
+  const nombre = document.getElementById("nombre-form").value.trim();
+  const correo = document.getElementById("correo-form").value.trim();
+  const codigo = document.getElementById("codigo-form").value.trim();
+  const medioPago = document.getElementById("formselect").value;
+  let cuentas = JSON.parse(localStorage.getItem("cuentas")) || [];
+  cuentas.push(nombre,correo,codigo,medioPago);
+  localStorage.setItem("cuentas", JSON.stringify(cuentas));
+  document.querySelector(".form-fondo").classList.toggle("oculto");
+});
+
+window.onload = function() {
+  localStorage.removeItem("carro");
+};
