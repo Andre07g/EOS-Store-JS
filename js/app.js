@@ -211,11 +211,10 @@ function agregarAlCarro(productoCarrito) {
 }
 
 setTimeout(() => {
-  console.log("weeew");
   const botonCarrito = document.getElementsByClassName("añadircarrito");
   console.log(botonCarrito);
 
-  for (let i = 0; i <= botonCarrito.length; i++) {
+  for (let i = 0; i < botonCarrito.length; i++) {
     botonCarrito[i].addEventListener("click", () => {
       console.log("aaaa");
       const idProducto = parseInt(botonCarrito[i].dataset.id);
@@ -230,13 +229,16 @@ setTimeout(() => {
 
 
 setTimeout(() => {
-  mostrarCarro()
-}, 1000);
+  mostrarCarro();
+  mostrarFactura();
+  eliminarProd();
+}, 3000);
 
 function mostrarCarro() {
   let carro = JSON.parse(localStorage.getItem("carro")) || [];
   const contenedorCarrito =
     document.getElementsByClassName("contenedor-carrito")[0];
+    contenedorCarrito.innerHTML="";
   let numCarrito = 1;
   carro.forEach((carroElement) => {
     let productoContenedorCarro = document.createElement("div");
@@ -244,23 +246,109 @@ function mostrarCarro() {
     productoContenedorCarro.innerHTML = `<div class="numero">
                      <h2>${numCarrito}</h2>
                  </div>
-                 <div class="tarjeta-producto-carro">
+                 <div class="tarjeta-producto-carro" >
                      <div class="imgpro">
                          <img class="imagen-producto-carrito"
                              src=${carroElement.image}>
                          <div class="datos-producto-pedido">
-                             <h2>${carroElement.title.slice(0,15)}</h2>
+                             <h2>${carroElement.title.slice(0, 15)}</h2>
                              <p>Precio: ${carroElement.price}</p>
                              <p>Cantidad: ${carroElement.cantidad}</p>
                          </div>
                      </div>
                      <div class="botones-producto">
-                         <div class="boton-añadir"><img src="./assets/sources/añadircarrito.png">
+                         <div class="boton-añadir" data-id=${
+                           carroElement.id
+                         }><img src="./assets/sources/añadircarrito.png">
                          </div>
                          <div class="boton-quitar"><img src="./assets/sources/basura.png"></div>
              </div>
       </div>`;
     contenedorCarrito.appendChild(productoContenedorCarro);
     numCarrito++;
-  })
+  });
+}
+
+function mostrarFactura() {
+  let carro = JSON.parse(localStorage.getItem("carro")) || [];
+  const factura = document.getElementsByClassName("factura")[0];
+  factura.innerHTML = `<p class="codigo">Codigo: ${Math.floor(
+    Math.random() * 10000
+  )}</p>
+                    <h1>Factura</h1>
+                    <hr>
+                    <p class="subtitulo">Productos</p>
+                    <hr>`;
+  let totalPrecio = 0;
+  carro.forEach((elementCarro) => {
+    console.log(elementCarro.title.slice(0, 15));
+    let divSub = document.createElement("div");
+    divSub.classList.add("subtitulo-precio");
+    divSub.innerHTML = `<p class="subsubtitulo">${elementCarro.title.slice(
+      0,
+      15
+    )}---x${elementCarro.cantidad}</p>
+    <p>${elementCarro.cantidad * elementCarro.price}</p>`;
+    console.log(divSub);
+    factura.append(divSub);
+    totalPrecio += elementCarro.cantidad * elementCarro.price;
+  });
+  const ahora = new Date();
+
+  const año = ahora.getFullYear();
+  const mes = String(ahora.getMonth() + 1).padStart(2, "0");
+  const dia = String(ahora.getDate()).padStart(2, "0");
+
+  const horas = String(ahora.getHours()).padStart(2, "0");
+  const minutos = String(ahora.getMinutes()).padStart(2, "0");
+
+  const fechaHora = `${año}-${mes}-${dia}       Hora:${horas}:${minutos}`;
+  factura.innerHTML += `<hr>
+                     <p class="subtitulo">Datos</p>
+                     <hr>
+                     <p class="subsubtitulo">Fecha: ${fechaHora}</p>
+                     <p class="subsubtitulo">Cliente: Edgar Andres Leal Plata</p>
+                     <p class="subsubtitulo">Correo: correo@hotmail.com</p>
+                     <p class="subsubtitulo">Codigo de cliente: ${Math.floor(
+                       Math.random() * 1000
+                     )}</p>
+                     <hr>
+                     <p class="subtitulo">Medios de pago</p>
+                     <hr>
+                     <div class="pago">
+                         <p>Mastercard</p><img src="./assets/sources/mastercard.webp">
+                     </div>
+                     <div class="pagar">
+                     <h1>TOTAL: $${totalPrecio}</h1><button>PAGAR</button>
+                     </div>
+                     <div class="triangular-bottom">
+                         <svg viewBox="0 0 360 20" width="100%" height="20" preserveAspectRatio="none">
+                             <polygon
+                                 points="0,0 10,20 20,0 30,20 40,0 50,20 60,0 70,20 80,0 90,20 100,0 110,20 120,0 130,20 140,0 150,20 160,0 170,20 180,0 190,20 200,0 210,20 220,0 230,20 240,0 250,20 260,0 270,20 280,0 290,20 300,0 310,20 320,0 330,20 340,0 350,20 360,0"
+                                 fill="#EEEEEE" />
+                         </svg>
+                     </div>`;
+}
+
+
+
+function eliminarProd(){
+const botonAñadirCarrito = document.getElementsByClassName("boton-añadir");
+
+  for (let i = 0; i < botonAñadirCarrito.length; i++) {
+    botonAñadirCarrito[i].addEventListener("click", () => {
+      console.log("111");
+      console.log(botonAñadirCarrito[i].dataset.id);
+      const idProducto = parseInt(botonAñadirCarrito[i].dataset.id);
+      let carro = JSON.parse(localStorage.getItem("carro")) || [];
+      console.log(idProducto);
+      console.log(botonAñadirCarrito[i].dataset.id);
+      const productoCarrito = carro.find((p) => p.id === idProducto);
+      productoCarrito.cantidad++;
+      console.log(productoCarrito);
+      localStorage.setItem("carro", JSON.stringify(carro));
+      mostrarCarro();
+      eliminarProd();
+    });
+  };
 }
