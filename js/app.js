@@ -234,7 +234,7 @@ setTimeout(() => {
       const productoCarrito = listaProductos.find((p) => p.id === idProducto);
       console.log(productoCarrito);
       agregarAlCarro(productoCarrito);
-      document.getElementById("navBarBoton").classList.toggle("oculto", true);
+
     });
   }
 }, 3000);
@@ -316,7 +316,7 @@ function mostrarFactura() {
 
   const fechaHora = `${año}-${mes}-${dia}       Hora:${horas}:${minutos}`;
   let cuentas = JSON.parse(localStorage.getItem("cuentas")) || [];
-  const pagos={maestro:"./assets/sources/maestro.png",mastercard:"./assets/sources/mastercard.webp",pse:"./assets/sources/logo-pse.png",american:"./assets/sources/american.png",visa:"./assets/sources/visawebp"}
+  const pagos={maestro:"./assets/sources/maestro.png",mastercard:"./assets/sources/mastercard.webp",pse:"./assets/sources/logo-pse.png",american:"./assets/sources/american.png",visa:"./assets/sources/visa.webp",paypal:"./assets/sources/paypal.png"}
   let medioPagoCuenta = cuentas[3];
 
   let urlPago = pagos[medioPagoCuenta];  
@@ -336,7 +336,7 @@ function mostrarFactura() {
                          <img src=${urlPago}>
                      </div>
                      <div class="pagar">
-                     <h1>TOTAL: $${totalPrecio.toFixed(2)}</h1><button>PAGAR</button>
+                     <h1>TOTAL: $${totalPrecio.toFixed(2)}</h1><button id="pagar">PAGAR</button>
                      </div>
                      <div class="triangular-bottom">
                          <svg viewBox="0 0 360 20" width="100%" height="20" preserveAspectRatio="none">
@@ -430,7 +430,8 @@ function mostrarCarrito() {
     let carro = JSON.parse(localStorage.getItem("carro")) || [];
    
     if(dentro){return}
-    if(carro.length=0){
+    if(carro.length==0){
+      alert("El carro esta vacio")
     }
     else{
     let cuentas = JSON.parse(localStorage.getItem("cuentas")) || [];
@@ -468,6 +469,18 @@ document.querySelector(".formulario").addEventListener("submit", function (e) {
   document.querySelector(".form-fondo").classList.toggle("oculto");
 });
 
-window.onload = function() {
+
+
+setTimeout(() => {
+  const pagar = document.getElementById("pagar");
+console.log(pagar)
+pagar.addEventListener("click",()=>{
   localStorage.removeItem("carro");
-};
+  alert("comprado correctamente");
+  mostrarCarro();
+})
+
+
+}, 20000);
+
+
