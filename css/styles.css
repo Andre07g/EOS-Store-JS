@@ -229,7 +229,7 @@ a {
 
 .producto {
     width: clamp(220px, 45vw, 350px);
-    background-color: var(--isabelline);
+    background-color: white;
     display: flex;
     flex-direction: column;
     align-items: center;

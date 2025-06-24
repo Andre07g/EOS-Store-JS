@@ -122,7 +122,7 @@ function mostrarCategoria(nombreCategoria, nombreVisible, idBuscador) {
         <img src="${producto.image}" class="imagen-producto">
         <p>$${producto.price}</p>
         <button class="boton-ver-mas">Ver más</button>
-        <div class="boton-marron"><img class="añadircarrito" src="./assets/sources/añadircarrito.png"></div>`;
+        <div class="boton-marron"><img class="añadircarrito" src="./assets/sources/añadircarrito.png" data-id="${producto.id}"></div>`;
       contenedor.appendChild(div);
     });
   }
@@ -206,4 +206,35 @@ function mostrarDetalleProducto(producto) {
 
 /*FUNCION PAGINA CARRITO*/
 
+function agregarAlCarro(productoCarrito){
+  let carro = JSON.parse(localStorage.getItem("carro"))||[];
+  const existe  = carro.find((p)=>p.id===productoCarrito.id);
+  if(existe){
+    existe.cantidad++;
+  }
+  else{
+    carro.push({...productoCarrito,cantidad:1});
+  }
+  localStorage.setItem("carro",JSON.stringify(carro));
+  console.log("actualizado");
+  console.log(carro)
+}
+
+setTimeout(()=>{console.log("weeew")
+const botonCarrito = document.getElementsByClassName("añadircarrito");
+console.log(botonCarrito)
+
+for(let i=0;i<=botonCarrito.length;i++)
+  
+  {
+    botonCarrito[i].addEventListener("click",()=>{
+    console.log("aaaa")
+    const idProducto = parseInt(botonCarrito[i].dataset.id);
+    console.log(botonCarrito[i].dataset.id)
+    const productoCarrito = listaProductos.find((p)=>p.id===idProducto);
+    console.log(productoCarrito);
+    agregarAlCarro(productoCarrito);
+
+})
+}},3000)
 
