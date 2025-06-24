@@ -7,29 +7,15 @@ document.getElementById("botonConoceMas").addEventListener("click", (e) => {
   const destino = document.getElementById("navbar");
   scrollSuaveConstante(destino, 1500);
   setTimeout(() => {
-    document.getElementsByClassName("pagina-inicio")[0].classList.toggle("oculto");
+    document
+      .getElementsByClassName("pagina-inicio")[0]
+      .classList.toggle("oculto");
   }, 1600);
-
 });
 
 /*CATEGORIAS*/
 
-
 /*PRODUCTOS*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*FUNCIONES*/
 
@@ -50,7 +36,6 @@ function scrollSuaveConstante(elementoObjetivo, duracion = 2000) {
 
     window.scrollTo(0, inicioY + distancia * progreso);
 
-
     const scale = 1 + progreso * 3;
     logo.style.transform = `scale(${scale})`;
     logo.style.opacity = 1 - progreso;
@@ -68,13 +53,11 @@ function scrollSuaveConstante(elementoObjetivo, duracion = 2000) {
 let listaProductos = [];
 const url = "https://fakestoreapi.com/products";
 
-
 fetch(url)
-  .then(res => res.json())
-  .then(data => {
+  .then((res) => res.json())
+  .then((data) => {
     listaProductos = data;
   });
-
 
 function mostrarCategoria(nombreCategoria, nombreVisible, idBuscador) {
   const paginaCategoria = document.querySelector(".pagina-categorias");
@@ -104,9 +87,7 @@ function mostrarCategoria(nombreCategoria, nombreVisible, idBuscador) {
   const input = document.getElementById(idBuscador);
   const select = document.getElementById("select-orden");
 
-
   function renderizarProductos(filtrados) {
-
     const orden = select.value;
     if (orden === "preciobajo") {
       filtrados.sort((a, b) => a.price - b.price);
@@ -115,10 +96,10 @@ function mostrarCategoria(nombreCategoria, nombreVisible, idBuscador) {
     }
 
     contenedor.innerHTML = "";
-    filtrados.forEach(producto => {
+    filtrados.forEach((producto) => {
       const div = document.createElement("div");
       div.classList.add("producto");
-      div.setAttribute("data",`${producto.id}`);
+      div.setAttribute("data", `${producto.id}`);
       console.log(div.attributes);
       div.innerHTML = `
         <h3>${producto.title}</h3>
@@ -131,21 +112,22 @@ function mostrarCategoria(nombreCategoria, nombreVisible, idBuscador) {
     });
   }
 
-
-  const productosCategoria = listaProductos.filter(p => p.category === nombreCategoria);
+  const productosCategoria = listaProductos.filter(
+    (p) => p.category === nombreCategoria
+  );
 
   function aplicarFiltrosYOrden() {
     const texto = input.value.toLowerCase();
-    const filtrados = productosCategoria.filter(p => p.title.toLowerCase().includes(texto));
+    const filtrados = productosCategoria.filter((p) =>
+      p.title.toLowerCase().includes(texto)
+    );
     renderizarProductos(filtrados);
   }
 
   input.addEventListener("input", aplicarFiltrosYOrden);
   select.addEventListener("change", aplicarFiltrosYOrden);
 
-
   renderizarProductos(productosCategoria);
-
 
   document.querySelector(".flecha-trasera").addEventListener("click", () => {
     paginaProductos.classList.add("oculto");
@@ -153,7 +135,6 @@ function mostrarCategoria(nombreCategoria, nombreVisible, idBuscador) {
     paginaProductos.innerHTML = "";
   });
 }
-
 
 document.addEventListener("click", (e) => {
   const texto = e.target.textContent.trim();
@@ -177,7 +158,7 @@ document.addEventListener("click", (e) => {
   if (e.target.classList.contains("boton-ver-mas")) {
     const producto = e.target.closest(".producto");
     const titulo = producto.querySelector("h3").textContent;
-    const dataProducto = listaProductos.find(p => p.title === titulo);
+    const dataProducto = listaProductos.find((p) => p.title === titulo);
     mostrarDetalleProducto(dataProducto);
   }
 
@@ -210,41 +191,76 @@ function mostrarDetalleProducto(producto) {
 
 /*FUNCION PAGINA CARRITO*/
 console.log(document.getElementsByClassName("aviso"));
-function agregarAlCarro(productoCarrito){
-  let carro = JSON.parse(localStorage.getItem("carro"))||[];
-  const existe  = carro.find((p)=>p.id===productoCarrito.id);
-  if(existe){
+function agregarAlCarro(productoCarrito) {
+  let carro = JSON.parse(localStorage.getItem("carro")) || [];
+  const existe = carro.find((p) => p.id === productoCarrito.id);
+  if (existe) {
     existe.cantidad++;
+  } else {
+    carro.push({ ...productoCarrito, cantidad: 1 });
   }
-  else{
-    carro.push({...productoCarrito,cantidad:1});
-  }
-  localStorage.setItem("carro",JSON.stringify(carro));
+  localStorage.setItem("carro", JSON.stringify(carro));
   console.log("actualizado");
   const aviso = document.getElementsByClassName("aviso")[0];
-  console.log("mostrando")
+  console.log("mostrando");
   aviso.classList.toggle("oculto");
   setTimeout(() => {
     aviso.classList.toggle("oculto");
-    console.log("ocultando")
+    console.log("ocultando");
   }, 3300);
 }
 
-setTimeout(()=>{console.log("weeew")
-const botonCarrito = document.getElementsByClassName("añadircarrito");
-console.log(botonCarrito)
+setTimeout(() => {
+  console.log("weeew");
+  const botonCarrito = document.getElementsByClassName("añadircarrito");
+  console.log(botonCarrito);
 
-for(let i=0;i<=botonCarrito.length;i++)
-  
-  {
-    botonCarrito[i].addEventListener("click",()=>{
-    console.log("aaaa")
-    const idProducto = parseInt(botonCarrito[i].dataset.id);
-    console.log(botonCarrito[i].dataset.id)
-    const productoCarrito = listaProductos.find((p)=>p.id===idProducto);
-    console.log(productoCarrito);
-    agregarAlCarro(productoCarrito);
+  for (let i = 0; i <= botonCarrito.length; i++) {
+    botonCarrito[i].addEventListener("click", () => {
+      console.log("aaaa");
+      const idProducto = parseInt(botonCarrito[i].dataset.id);
+      console.log(botonCarrito[i].dataset.id);
+      const productoCarrito = listaProductos.find((p) => p.id === idProducto);
+      console.log(productoCarrito);
+      agregarAlCarro(productoCarrito);
+    });
+  }
+}, 3000);
 
-})
-}},3000)
 
+
+setTimeout(() => {
+  mostrarCarro()
+}, 1000);
+
+function mostrarCarro() {
+  let carro = JSON.parse(localStorage.getItem("carro")) || [];
+  const contenedorCarrito =
+    document.getElementsByClassName("contenedor-carrito")[0];
+  let numCarrito = 1;
+  carro.forEach((carroElement) => {
+    let productoContenedorCarro = document.createElement("div");
+    productoContenedorCarro.classList.add("producto-carrito");
+    productoContenedorCarro.innerHTML = `<div class="numero">
+                     <h2>${numCarrito}</h2>
+                 </div>
+                 <div class="tarjeta-producto-carro">
+                     <div class="imgpro">
+                         <img class="imagen-producto-carrito"
+                             src=${carroElement.image}>
+                         <div class="datos-producto-pedido">
+                             <h2>${carroElement.title.slice(0,15)}</h2>
+                             <p>Precio: ${carroElement.price}</p>
+                             <p>Cantidad: ${carroElement.cantidad}</p>
+                         </div>
+                     </div>
+                     <div class="botones-producto">
+                         <div class="boton-añadir"><img src="./assets/sources/añadircarrito.png">
+                         </div>
+                         <div class="boton-quitar"><img src="./assets/sources/basura.png"></div>
+             </div>
+      </div>`;
+    contenedorCarrito.appendChild(productoContenedorCarro);
+    numCarrito++;
+  })
+}
