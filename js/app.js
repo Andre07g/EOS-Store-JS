@@ -42,7 +42,7 @@ asignarEventos();
 /*FUNCIONES*/
 
 /*PAGINA DE INICIO*/
-function scrollSuaveConstante(elementoObjetivo, duracion = 2000) {
+function scrollSuaveConstante(elementoObjetivo, duracion = 1000) {
   const inicioY = window.scrollY;
   const destinoY = elementoObjetivo.offsetTop;
   const distancia = destinoY - inicioY;
