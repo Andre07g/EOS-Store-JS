@@ -365,7 +365,7 @@ function mostrarFactura() {
       </svg>
     </div>`;
 
-  // Importante: llama a pagar() aquí porque el botón se acaba de crear
+
   pagar();
 }
 
@@ -452,7 +452,9 @@ async function mostrarCarrito() {
     let cuentas = JSON.parse(localStorage.getItem("cuentas")) || [];
 
     if (carro.length === 0) {
-      alert("El carro está vacío");
+      document.getElementById("aviso-carrito-vacio").classList.toggle("oculto");
+      setTimeout(()=>{document.getElementById("aviso-carrito-vacio").classList.toggle("oculto");
+      },1500)
       return;
     }
 
@@ -474,7 +476,7 @@ async function mostrarCarrito() {
       document.querySelector(".form-fondo").classList.remove("oculto");
     } else {
       mostrarCarro();
-      mostrarFactura(); // llama automáticamente a `pagar()`
+      mostrarFactura();
     }
   });
 }
@@ -495,10 +497,9 @@ function mostrarForm() {
     let cuentas = [nombre, correo, codigo, medioPago];
     localStorage.setItem("cuentas", JSON.stringify(cuentas));
 
-    // Oculta el formulario
+
     document.querySelector(".form-fondo").classList.add("oculto");
 
-    // Y ahora muestra el carro y factura inmediatamente
     mostrarCarro();
     mostrarFactura();
   });
@@ -510,8 +511,23 @@ function pagar() {
   if (btnPagar) {
     btnPagar.addEventListener("click", () => {
       localStorage.removeItem("carro");
-      alert("Comprado correctamente");
-      mostrarCarro();
+      document.querySelector(".pagina-carrito").classList.add("oculto");
+
+      const mensajePago = document.createElement("div");
+      mensajePago.classList.add("mensaje-pago-exitoso");
+      mensajePago.innerHTML = `
+        <div class="contenido-mensaje">
+          <h1>¡Pago realizado con éxito!</h1>
+          <p>Gracias por tu compra. Tu pedido está siendo procesado.</p>
+          <button id="volverInicio">Volver al inicio</button>
+        </div>
+      `;
+      
+      const main = document.getElementsByClassName("pagina-completa")[0];
+
+      main.appendChild(mensajePago);
+      document.getElementById("volverInicio").addEventListener("click", () => {
+        location.reload();})
     });
   }
 }
