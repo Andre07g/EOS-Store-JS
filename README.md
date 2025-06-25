@@ -108,16 +108,16 @@ En el repositorio, encontrarás una sección dedicada a la evidencia del proceso
 
 ## 📸 Capturas de Pantalla del Figma (Bocetos)
 
-![Página principal de EOS Store](assets/bocetos/inicio.png)
+![Página principal de EOS Store](assets/bocetos/inicio.PNG)
 *Vista de la página principal de EOS Store.*
 
-![Página categorias de EOS Store](assets/bocetos/categoria.png)
+![Página categorias de EOS Store](assets/bocetos/categoria.PNG)
 *Vista de la página de categorias.*
 
-![Página productos de EOS Store](assets/bocetos/producto.png)
+![Página productos de EOS Store](assets/bocetos/producto.PNG)
 *Vista de la página de productos.*
 
-![Página del carrito y el formulario de EOS Store](assets/bocetos/carrito.png)
+![Página del carrito y el formulario de EOS Store](assets/bocetos/carrito.PNG)
 *Vista de la página del carrito, mostrando el formulario.*
 
 ---
