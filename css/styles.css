@@ -812,6 +812,7 @@ z-index: 10;
 .categorias{display: flex;flex-direction: column;width: 100%;height: 100%;}
 .tarjeta-categoria{border-radius:0px;}
 .tarjeta-categoria h2{border-radius: 0;height: 30vh;}
+.contenedor-productos{width: 100%;}
 .flecha-trasera{width: 10vw;}
 .busqueda-filtro{display: flex;flex-direction: column;gap:3vh;}
 .buscador{width: 80%;}
@@ -830,6 +831,44 @@ z-index: 10;
 .flecha-trasera-car{width: 10vw;}
 .pagar{display: flex;flex-direction: column;}
 #pagar{width: 40%;margin-bottom: 3vh;}
+
+#detalle-producto {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+#detalle-producto.oculto {
+  display: none;
+}
+
+.tarjeta-detalle {
+  background: white;
+  color: black;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 250px;
+  width: 90%;
+  position: relative;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  animation: zoomIn 0.3s ease;
+}
+
+.cerrar-detalle {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
 }
 
 
