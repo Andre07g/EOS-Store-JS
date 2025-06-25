@@ -2,6 +2,9 @@
 
 /*MAIN*/
 
+let listaProductos = [];
+const url = "https://fakestoreapi.com/products";
+
 document.getElementById("botonConoceMas").addEventListener("click", (e) => {
   e.preventDefault();
   const destino = document.getElementById("navbar");
@@ -13,19 +16,28 @@ document.getElementById("botonConoceMas").addEventListener("click", (e) => {
   }, 1600);
 });
 
+obtenerProductos();
+
 /*CATEGORIAS*/
 
 
-
+elegircat();
 /*PRODUCTOS*/
 
-
+vermas();
+document.addEventListener("click", function(e) {
+  if (e.target.classList.contains("añadircarrito")) {
+    const idProducto = parseInt(e.target.dataset.id);
+    const productoCarrito = listaProductos.find(p => p.id === idProducto);
+    agregarAlCarro(productoCarrito);
+  }
+});
 /*CARRITO*/
-setTimeout(() => {
-  mostrarCarro();
-  mostrarFactura();
-}, 15000);
-
+mostrarForm();
+mostrarCarrito();
+mostrarCarro();
+mostrarFactura();
+asignarEventos();
 
 /*FUNCIONES*/
 
@@ -60,16 +72,24 @@ function scrollSuaveConstante(elementoObjetivo, duracion = 2000) {
 
   requestAnimationFrame(pasoScroll);
 }
-let listaProductos = [];
-const url = "https://fakestoreapi.com/products";
 
-fetch(url)
-  .then((res) => res.json())
-  .then((data) => {
+
+async function obtenerProductos() {
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
     listaProductos = data;
-  });
+    console.log("Productos obtenidos:", listaProductos);
+  } catch (error) {
+    console.error("Error al obtener los productos:", error);
+  }
+}
 
-function mostrarCategoria(nombreCategoria, nombreVisible, idBuscador) {
+obtenerProductos();
+
+
+async function mostrarCategoria(nombreCategoria, nombreVisible, idBuscador) {
+  await elegircat();
   const paginaCategoria = document.querySelector(".pagina-categorias");
   const paginaProductos = document.querySelector(".pagina-productos");
 
@@ -146,6 +166,7 @@ function mostrarCategoria(nombreCategoria, nombreVisible, idBuscador) {
   });
 }
 
+async function elegircat(){
 document.addEventListener("click", (e) => {
   const texto = e.target.textContent.trim();
   switch (texto) {
@@ -162,8 +183,10 @@ document.addEventListener("click", (e) => {
       mostrarCategoria("electronics", "TECNOLOGIA", "buscador3");
       break;
   }
-});
+});}
 
+async function vermas(){
+  await elegircat();
 document.addEventListener("click", (e) => {
   if (e.target.classList.contains("boton-ver-mas")) {
     const producto = e.target.closest(".producto");
@@ -176,7 +199,7 @@ document.addEventListener("click", (e) => {
     document.getElementById("detalle-producto").classList.add("oculto");
     document.getElementById("detalle-producto").innerHTML = "";
   }
-});
+});}
 
 function mostrarDetalleProducto(producto) {
   const detalle = document.getElementById("detalle-producto");
@@ -203,7 +226,9 @@ function mostrarDetalleProducto(producto) {
 
 /*FUNCION PAGINA CARRITO*/
 console.log(document.getElementsByClassName("aviso"));
-function agregarAlCarro(productoCarrito) {
+
+async function agregarAlCarro(productoCarrito) {
+  await elegircat();
   let carro = JSON.parse(localStorage.getItem("carro")) || [];
   const existe = carro.find((p) => p.id === productoCarrito.id);
   if (existe) {
@@ -222,7 +247,8 @@ function agregarAlCarro(productoCarrito) {
   }, 3300);
 }
 
-setTimeout(() => {
+function añadirFuncionBoton(){
+  
   const botonCarrito = document.getElementsByClassName("añadircarrito");
   console.log(botonCarrito);
 
@@ -236,8 +262,8 @@ setTimeout(() => {
       agregarAlCarro(productoCarrito);
 
     });
-  }
-}, 3000);
+  }}
+
 
 
 function mostrarCarro() {
@@ -282,69 +308,65 @@ function mostrarCarro() {
 function mostrarFactura() {
   console.log("Entrando a mostrarFactura");
   let carro = JSON.parse(localStorage.getItem("carro")) || [];
+  let cuentas = JSON.parse(localStorage.getItem("cuentas")) || [];
+
   const factura = document.getElementsByClassName("factura")[0];
-  factura.innerHTML = `<p class="codigo">Codigo: ${Math.floor(
-    Math.random() * 10000
-  )}</p>
-                    <h1>Factura</h1>
-                    <hr>
-                    <p class="subtitulo">Productos</p>
-                    <hr>`;
+  factura.innerHTML = `<p class="codigo">Codigo: ${Math.floor(Math.random() * 10000)}</p>
+    <h1>Factura</h1>
+    <hr>
+    <p class="subtitulo">Productos</p>
+    <hr>`;
+
   let totalPrecio = 0;
+
   carro.forEach((elementCarro) => {
-    if(elementCarro.cantidad===0){return}else{
-    console.log(elementCarro.title.slice(0, 15));
+    if (elementCarro.cantidad === 0) return;
     let divSub = document.createElement("div");
     divSub.classList.add("subtitulo-precio");
-    divSub.innerHTML = `<p class="subsubtitulo">${elementCarro.title.slice(
-      0,
-      15
-    )}---x${elementCarro.cantidad}</p>
-    <p>${(elementCarro.cantidad * elementCarro.price).toFixed(2)}</p>`;
-    console.log(divSub);
+    divSub.innerHTML = `
+      <p class="subsubtitulo">${elementCarro.title.slice(0, 15)}---x${elementCarro.cantidad}</p>
+      <p>${(elementCarro.cantidad * elementCarro.price).toFixed(2)}</p>`;
     factura.append(divSub);
     totalPrecio += elementCarro.cantidad * elementCarro.price;
-  }});
+  });
+
   const ahora = new Date();
+  const fechaHora = `${ahora.getFullYear()}-${String(ahora.getMonth() + 1).padStart(2, "0")}-${String(ahora.getDate()).padStart(2, "0")} Hora:${String(ahora.getHours()).padStart(2, "0")}:${String(ahora.getMinutes()).padStart(2, "0")}`;
 
-  const año = ahora.getFullYear();
-  const mes = String(ahora.getMonth() + 1).padStart(2, "0");
-  const dia = String(ahora.getDate()).padStart(2, "0");
+  const [nombre, correo, codigo, medioPagoCuenta] = cuentas;
+  const pagos = {
+    maestro: "./assets/sources/maestro.png",
+    mastercard: "./assets/sources/mastercard.webp",
+    pse: "./assets/sources/logo-pse.png",
+    american: "./assets/sources/american.png",
+    visa: "./assets/sources/visa.webp",
+    paypal: "./assets/sources/paypal.png"
+  };
+  const urlPago = pagos[medioPagoCuenta];
 
-  const horas = String(ahora.getHours()).padStart(2, "0");
-  const minutos = String(ahora.getMinutes()).padStart(2, "0");
-
-  const fechaHora = `${año}-${mes}-${dia}       Hora:${horas}:${minutos}`;
-  let cuentas = JSON.parse(localStorage.getItem("cuentas")) || [];
-  const pagos={maestro:"./assets/sources/maestro.png",mastercard:"./assets/sources/mastercard.webp",pse:"./assets/sources/logo-pse.png",american:"./assets/sources/american.png",visa:"./assets/sources/visa.webp",paypal:"./assets/sources/paypal.png"}
-  let medioPagoCuenta = cuentas[3];
-
-  let urlPago = pagos[medioPagoCuenta];  
-  
   factura.innerHTML += `<hr>
-                     <p class="subtitulo">Datos</p>
-                     <hr>
-                     <p class="subsubtitulo">Fecha: ${fechaHora}</p>
-                     <p class="subsubtitulo">Cliente: ${document.getElementById("nombre-form").value.trim()}</p>
-                     <p class="subsubtitulo">Correo: ${document.getElementById("correo-form").value.trim()}</p>
-                     <p class="subsubtitulo">Codigo de cliente: ${document.getElementById("codigo-form").value.trim()}
-                     </p>
-                     <hr>
-                     <p class="subtitulo">Medios de pago</p>
-                     <hr>
-                     <div class="pago">
-                         <img src=${urlPago}>
-                     </div>
-                     <div class="pagar">
-                     <h1>TOTAL: $${totalPrecio.toFixed(2)}</h1><button id="pagar">PAGAR</button>
-                     </div>
-                     <div class="triangular-bottom">
-                         <svg viewBox="0 0 360 20" width="100%" height="20" preserveAspectRatio="none">
-                             <polygon
-                                 points="0,0 10,20 20,0 30,20 40,0 50,20 60,0 70,20 80,0 90,20 100,0 110,20 120,0 130,20 140,0 150,20 160,0 170,20 180,0 190,20 200,0 210,20 220,0 230,20 240,0 250,20 260,0 270,20 280,0 290,20 300,0 310,20 320,0 330,20 340,0 350,20 360,0"
-                                 fill="#EEEEEE" />
-                         </svg>
-                     </div>`;
+    <p class="subtitulo">Datos</p>
+    <hr>
+    <p class="subsubtitulo">Fecha: ${fechaHora}</p>
+    <p class="subsubtitulo">Cliente: ${nombre}</p>
+    <p class="subsubtitulo">Correo: ${correo}</p>
+    <p class="subsubtitulo">Codigo de cliente: ${codigo}</p>
+    <hr>
+    <p class="subtitulo">Medios de pago</p>
+    <hr>
+    <div class="pago"><img src=${urlPago}></div>
+    <div class="pagar">
+      <h1>TOTAL: $${totalPrecio.toFixed(2)}</h1>
+      <button id="pagar">PAGAR</button>
+    </div>
+    <div class="triangular-bottom">
+      <svg viewBox="0 0 360 20" width="100%" height="20" preserveAspectRatio="none">
+        <polygon points="0,0 10,20 20,0 30,20 40,0 50,20 60,0 70,20 80,0 90,20 100,0 110,20 120,0 130,20 140,0 150,20 160,0 170,20 180,0 190,20 200,0 210,20 220,0 230,20 240,0 250,20 260,0 270,20 280,0 290,20 300,0 310,20 320,0 330,20 340,0 350,20 360,0" fill="#EEEEEE"/>
+      </svg>
+    </div>`;
+
+  // Importante: llama a pagar() aquí porque el botón se acaba de crear
+  pagar();
 }
 
 
@@ -421,66 +443,75 @@ function asignarEventos() {
     });
   }
 }
-mostrarCarrito()
+async function mostrarCarrito() {
+  await mostrarForm();
+  const botonCarro = document.getElementById("navBarBoton");
 
-
-function mostrarCarrito() {
-  const botonCarro = document.getElementById("navBarBoton"); let dentro = false;
   botonCarro.addEventListener("click", () => {
     let carro = JSON.parse(localStorage.getItem("carro")) || [];
-   
-    if(dentro){return}
-    if(carro.length==0){
-      alert("El carro esta vacio")
-    }
-    else{
     let cuentas = JSON.parse(localStorage.getItem("cuentas")) || [];
-    console.log(cuentas.length);
+
+    if (carro.length === 0) {
+      alert("El carro está vacío");
+      return;
+    }
+
     const paginaProductos = document.getElementsByClassName("pagina-productos")[0];
     const paginaCategoria = document.querySelector(".pagina-categorias");
     const paginaCarrito = document.querySelector(".pagina-carrito");
-    paginaProductos.classList.toggle("oculto", true);
-    paginaCategoria.classList.toggle("oculto", true);
-    paginaCarrito.classList.toggle("oculto");
+
+    paginaProductos.classList.add("oculto");
+    paginaCategoria.classList.add("oculto");
+    paginaCarrito.classList.remove("oculto");
+
     document.querySelector(".flecha-trasera-car").addEventListener("click", () => {
       paginaCarrito.classList.add("oculto");
       paginaCategoria.classList.remove("oculto");
       paginaProductos.innerHTML = "";
     });
-    if(cuentas.length>0){document.querySelector(".form-fondo").classList.toggle("oculto");}
-    else{
-    
-  }dentro=true;}})
-  
+
+    if (cuentas.length < 4) {
+      document.querySelector(".form-fondo").classList.remove("oculto");
+    } else {
+      mostrarCarro();
+      mostrarFactura(); // llama automáticamente a `pagar()`
+    }
+  });
 }
 
 
+
+
 /*FORMULARIO*/
+function mostrarForm() {
+  document.querySelector(".formulario").addEventListener("submit", function (e) {
+    e.preventDefault();
 
-document.querySelector(".formulario").addEventListener("submit", function (e) {
-  e.preventDefault();
-  const nombre = document.getElementById("nombre-form").value.trim();
-  const correo = document.getElementById("correo-form").value.trim();
-  const codigo = document.getElementById("codigo-form").value.trim();
-  const medioPago = document.getElementById("formselect").value;
-  let cuentas = JSON.parse(localStorage.getItem("cuentas")) || [];
-  cuentas.push(nombre,correo,codigo,medioPago);
-  localStorage.setItem("cuentas", JSON.stringify(cuentas));
-  document.querySelector(".form-fondo").classList.toggle("oculto");
-});
+    const nombre = document.getElementById("nombre-form").value.trim();
+    const correo = document.getElementById("correo-form").value.trim();
+    const codigo = document.getElementById("codigo-form").value.trim();
+    const medioPago = document.getElementById("formselect").value;
 
+    let cuentas = [nombre, correo, codigo, medioPago];
+    localStorage.setItem("cuentas", JSON.stringify(cuentas));
 
+    // Oculta el formulario
+    document.querySelector(".form-fondo").classList.add("oculto");
 
-setTimeout(() => {
-  const pagar = document.getElementById("pagar");
-console.log(pagar)
-pagar.addEventListener("click",()=>{
-  localStorage.removeItem("carro");
-  alert("comprado correctamente");
-  mostrarCarro();
-})
+    // Y ahora muestra el carro y factura inmediatamente
+    mostrarCarro();
+    mostrarFactura();
+  });
+}
 
 
-}, 20000);
-
-
+function pagar() {
+  const btnPagar = document.getElementById("pagar");
+  if (btnPagar) {
+    btnPagar.addEventListener("click", () => {
+      localStorage.removeItem("carro");
+      alert("Comprado correctamente");
+      mostrarCarro();
+    });
+  }
+}
