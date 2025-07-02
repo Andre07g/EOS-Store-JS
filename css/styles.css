@@ -33,16 +33,15 @@ a {
   box-sizing: border-box;
 }
 
-.espacio-navBar {
-  width: 47%;
-}
 
 .iconosNavBar {
-  width: 52%;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
+#iconoFavoritos{height: 10vh;}
 
 #iconoEos {
   height: 10vh;
@@ -326,6 +325,8 @@ a {
   cursor: pointer;
 }
 
+.botonFavoritos{opacity: 0.3;position: absolute;width: 5vh;left: 1vh;bottom: 1vh;}
+.botonFavoritos:hover{opacity: 1;position: absolute;width: 5vh;left: 1vh;bottom: 1vh;}
 .añadircarrito:hover{width: 95%;}
 
 .select-personalizado {
@@ -725,7 +726,7 @@ hr {
   }
 }
 
-.aviso {
+.aviso,.avisoFav {
 z-index: 10;
   position: fixed;
   right: 5vw;
@@ -891,3 +892,5 @@ z-index: 10;
   border-radius: 10px;
   font-size: clamp(1rem,2vw,1.5rem);
 }
+
+.favoritos{position:absolute;width: 50vw;top: 10vh;left: 5vw;flex-direction: column;display: flex;flex-wrap: wrap;}
